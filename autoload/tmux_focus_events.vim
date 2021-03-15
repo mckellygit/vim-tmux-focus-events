@@ -12,6 +12,7 @@ function! s:cursor_in_cmd_line()
 endfunction
 
 function! s:delayed_checktime()
+  redraw!
   try
     silent checktime
     " clearing out 'emergency' events, if the checktime succeeded
@@ -32,7 +33,7 @@ function! tmux_focus_events#focus_gained()
     augroup focus_gained_checktime
       au!
       " perform checktime ASAP when outside cmd line
-      au * * call <SID>delayed_checktime()
+      au CmdLineEnter,CmdLineChanged * call <SID>delayed_checktime()
     augroup END
   else
     silent checktime
